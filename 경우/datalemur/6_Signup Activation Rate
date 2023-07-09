@@ -1,0 +1,10 @@
+
+SELECT
+    ROUND( sum(CASE WHEN signup_action = 'Confirmed' THEN 1 END) / CAST( COUNT( user_id )  AS NUMERIC) , 2)  as confirm_rate
+  --  , sum(CASE WHEN signup_action = 'Confirmed' THEN 1 END)
+   -- , CAST( COUNT( * )  AS NUMERIC) 
+   -- , CAST( COUNT( user_id )  AS NUMERIC) 
+  --  , CAST( COUNT( distinct  user_id )  AS NUMERIC) 
+FROM emails em 
+  INNER JOIN texts te ON em.email_id = te.email_id
+  

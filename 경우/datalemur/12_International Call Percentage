@@ -1,0 +1,23 @@
+WITH id_info AS (
+SELECT phone_id
+      ,country_id
+FROM (
+  SELECT caller_id AS phone_id FROM phone_calls
+  UNION
+  SELECT receiver_id AS phone_id FROM phone_calls
+) id_list
+INNER JOIN phone_info ON  id_list.phone_id = phone_info.caller_id
+)
+
+
+SELECT
+     ROUND(CAST( SUM( CASE WHEN ci_country <> ri_country then 1 END ) AS numeric) / CAST(SUM(1) AS numeric )*100 ,1)
+FROM (
+  SELECT caller_id
+        , receiver_id
+        , ci.country_id AS ci_country
+        , ri.country_id AS ri_country
+  FROM phone_calls pc
+    INNER JOIN id_info  ci ON pc.caller_id = ci.phone_id
+    INNER JOIN id_info  ri ON pc.receiver_id = ri.phone_id
+) a 

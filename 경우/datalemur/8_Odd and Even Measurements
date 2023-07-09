@@ -1,0 +1,12 @@
+SELECT measurement_day
+      , SUM(CASE WHEN id % 2 =1 THEN measurement_value END) AS odd_sum
+      , SUM(CASE WHEN id % 2 =0 THEN measurement_value END) AS even_sum
+FROM (
+  SELECT DATE_TRUNC('day',measurement_time)   measurement_day
+      ,  ROW_NUMBER() OVER (PARTITION BY DATE_TRUNC('day',measurement_time) ORDER BY measurement_time) AS id
+      , measurement_time
+      , measurement_value
+  FROM measurements
+) a 
+GROUP BY measurement_day
+
