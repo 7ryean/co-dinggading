@@ -1,8 +1,8 @@
 -- 제출 쿼리
 SELECT 
-    rent_info.local   AS local
-  , COUNT(*) AS all_rent
-  , SUM(CASE WHEN rent_info.local = return_info.local THEN 1 END) AS same_local
+    rent_info.local                                                AS local
+  , COUNT(*)                                                       AS all_rent
+  , SUM(CASE WHEN rent_info.local = return_info.local THEN 1 END)  AS same_local
   , SUM(CASE WHEN rent_info.local != return_info.local THEN 1 END) AS diff_local
 FROM rental_history
     INNER JOIN station AS rent_info
@@ -21,9 +21,9 @@ ORDER BY
 -- 실행 속도 확인을 위해 DATE_FORMAT을 사용해본 쿼리
 -- 통과
 SELECT 
-    rent_info.local   AS local
-  , COUNT(*) AS all_rent
-  , SUM(CASE WHEN rent_info.local = return_info.local THEN 1 END) AS same_local
+    rent_info.local                                                AS local
+  , COUNT(*)                                                       AS all_rent
+  , SUM(CASE WHEN rent_info.local = return_info.local THEN 1 END)  AS same_local
   , SUM(CASE WHEN rent_info.local != return_info.local THEN 1 END) AS diff_local
 FROM rental_history
       INNER JOIN station AS rent_info
@@ -41,9 +41,9 @@ ORDER BY
 
 -- 제한시간 초과
 SELECT 
-    rent_info.local   AS local
-  , COUNT(*) AS all_rent
-  , SUM(CASE WHEN rent_info.local = rent_info.local THEN 1 END) AS same_local
+    rent_info.local                                              AS local
+  , COUNT(*)                                                     AS all_rent
+  , SUM(CASE WHEN rent_info.local = rent_info.local THEN 1 END)  AS same_local
   , SUM(CASE WHEN rent_info.local != rent_info.local THEN 1 END) AS diff_local
 FROM rental_history
     INNER JOIN station AS rent_info
@@ -73,7 +73,7 @@ WITH local_info AS (
 )
 
 SELECT
-    rent_local AS local
+    rent_local                      AS local
   , COUNT(DISTINCT rent_station_id) AS all_rent
   , COUNT(DISTINCT 
             CASE WHEN rent_local = return_local 
